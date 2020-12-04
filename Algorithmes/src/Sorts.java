@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Sorts {
 
     public static void insertionSort(int[] array) {
@@ -7,22 +5,23 @@ public class Sorts {
         int swaps = 0;
 
         for (int left = 0; left < array.length; left++) {
+            count++;
             int value = array[left];
             int i = left - 1;
             for (; i >= 0; i--) {
+                count++;
                 if (value < array[i]) {
                     array[i + 1] = array[i];
                     swaps++;
                 } else {
                     break;
                 }
-                count++;
+
             }
             array[i + 1] = value;
-            count++;
         }
 
-        System.out.println("Число проходов: " + count + " Число перестановок: " + swaps + " ");
+        System.out.println("Сравнений: " + count + " Перестановок: " + swaps + " ");
         
     }
 
@@ -58,7 +57,7 @@ public class Sorts {
             array[lowIndex] = b;
             count++;
         }
-        System.out.println("Число проходов: " + count + " Число перестановок: " + swaps + " ");
+        System.out.println("Сравнений: " + count + " Перестановок: " + swaps + " ");
     }
 
     public static void bubbleSort(int[] array) {
@@ -74,14 +73,12 @@ public class Sorts {
                     array[i] = array[i-1];
                     array[i-1] = tmp;
                     isSorted = false;
-
                     swaps++;
                 }
                 count++;
             }
-            count++;
         }
-        System.out.println("Число проходов: " + count + " Число перестановок: " + swaps + " ");
+        System.out.println("Сравнений: " + count + " Перестановок: " + swaps + " ");
     }
 
     public static void shellSort(int[] array) {
@@ -95,22 +92,21 @@ public class Sorts {
             int length = array.length;
             for (int i = h; i < length; i++) {
                 for (int j = i; j >= h; j = j - h) {
+                    count++;
                     if (array[j] < array[j - h]) {
                         int temp = array[j];
                         array[j] = array[j - h];
                         array[j - h] = temp;
-
                         swaps++;
                     } else {
                         break;
                     }
-                    count++;
                 }
                 count++;
             }
             h = h/3;
             count++;
         }
-        System.out.println("Число проходов: " + count + " Число перестановок: " + swaps + " ");
+        System.out.println("Сравнений: " + count + " Перестановок: " + swaps + " ");
     }
 }

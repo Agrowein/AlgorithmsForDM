@@ -6,6 +6,7 @@ public class Searches {
 
 
         while (firstIndex <= lastIndex) {
+            count++;
             int middleIndex = (firstIndex + lastIndex) / 2;
             if (arr[middleIndex] == elementToSearch) {
                 count++;
@@ -18,9 +19,9 @@ public class Searches {
             else if (arr[middleIndex] > elementToSearch)
                 lastIndex = middleIndex - 1;
 
-            count++;
+
         }
-        System.out.println("Бинарный поиск. Элемент не найден");
+        System.out.println("Бинарный поиск. Элемент не найден. Шаги: " + count);
         return -1;
     }
 
@@ -28,14 +29,15 @@ public class Searches {
     public static int linearSearch(int arr[], int elementToSearch) {
         int count = 0;
         for (int index = 0; index < arr.length; index++) {
+            count++;
             if (arr[index] == elementToSearch) {
                 count++;
                 System.out.println("Линейный поиск. Искомый элемент: " + elementToSearch + " найден на позиции: " + index + " За " + count + " шага(ов)");
                 return index;
             }
-            count++;
+
         }
-        System.out.println("Линейный поиск. Элемент не найден");
+        System.out.println("Линейный поиск. Элемент не найден. Шаги: " + count);
         return -1;
     }
 

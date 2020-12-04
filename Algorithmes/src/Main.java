@@ -3,10 +3,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    static final int[] sortedArray = new int[30];
-    static final int[] randomArray = new int[30];
-    static final int[] invertArray = new int[30];
-    static final int[] bigRndArray = new int[32768];
+    static final int[] sortedArray = new int[15];
+    static final int[] randomArray = new int[15];
+    static final int[] invertArray = new int[15];
 
     public static void main(String[] args) {
 
@@ -22,11 +21,10 @@ public class Main {
         for (int i = 0; i < randomArray.length; i++) {
             randomArray[i] = (int) (Math.random() * 100);
         }
-
-        for (int i = 0; i < bigRndArray.length; i++) {
-            bigRndArray[i] = (int) (Math.random() * 100);
-        }
-
+        binarySearchResearch(10);
+        System.out.println();
+        linearSearchResearch(10);
+        System.out.println();
         insertionSortResearch();
         System.out.println();
         binaryInsertionSortResearch();
@@ -36,11 +34,26 @@ public class Main {
         shellSortResearch();
     }
 
+    static void binarySearchResearch(int element) {
+        int[] array = {1,3,2,4,6,5,7,8,9,11,10,13,12,14,15};
+        Arrays.sort(array); // для бинарного поиска требуется отсортированный массив
+        System.out.println(printArray(array));
+        Searches.binarySearch(array, element);
+        System.out.println("Поиск не существующего элемента");
+        Searches.linearSearch(array, 100);
+    }
+    static void linearSearchResearch(int element) {
+        int[] array = {1,3,2,4,6,5,7,8,9,11,10,13,12,14,15};
+        System.out.println(printArray(array));
+        Searches.linearSearch(array, element);
+        System.out.println("Поиск не существующего элемента");
+        Searches.linearSearch(array, 100);
+    }
+
     static void insertionSortResearch() {
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
-        int[] tmpBigRndArray = bigRndArray.clone();
 
         System.out.println("Сортировка вставками");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
@@ -57,16 +70,12 @@ public class Main {
         Sorts.insertionSort(tmpInvertArray);
         System.out.println(Arrays.toString(tmpInvertArray));
         System.out.println();
-
-        System.out.println("Массив случайных чисел большого размера (2^15)");
-        Sorts.insertionSort(tmpBigRndArray);
     }
 
     static void bubbleSortResearch() {
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
-        int[] tmpBigRndArray = bigRndArray.clone();
 
         System.out.println("Сортировка пузырьком");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
@@ -83,16 +92,12 @@ public class Main {
         Sorts.bubbleSort(tmpInvertArray);
         System.out.println(Arrays.toString(tmpInvertArray));
         System.out.println();
-
-        System.out.println("Массив случайных чисел большого размера (2^15)");
-        Sorts.bubbleSort(tmpBigRndArray);
     }
 
     static void binaryInsertionSortResearch() {
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
-        int[] tmpBigRndArray = bigRndArray.clone();
 
         System.out.println("Сортировка бинарными вставками");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
@@ -110,15 +115,12 @@ public class Main {
         System.out.println(Arrays.toString(tmpInvertArray));
         System.out.println();
 
-        System.out.println("Массив случайных чисел большого размера (2^15)");
-        Sorts.insertionSortWithBinarySearch(tmpBigRndArray);
     }
 
     static void shellSortResearch() {
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
-        int[] tmpBigRndArray = bigRndArray.clone();
 
         System.out.println("Сортировка Шелла");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
@@ -135,9 +137,6 @@ public class Main {
         Sorts.shellSort(tmpInvertArray);
         System.out.println(Arrays.toString(tmpInvertArray));
         System.out.println();
-
-        System.out.println("Массив случайных чисел большого размера (2^15)");
-        Sorts.shellSort(tmpBigRndArray);
     }
 
     public static String printArray(int[] array) {
