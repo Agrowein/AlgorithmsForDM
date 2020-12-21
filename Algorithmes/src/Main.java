@@ -21,17 +21,53 @@ public class Main {
         for (int i = 0; i < randomArray.length; i++) {
             randomArray[i] = (int) (Math.random() * 100);
         }
-        binarySearchResearch(10);
+        mergeResearch();
         System.out.println();
-        linearSearchResearch(10);
+        quickResearch();
+
+    }
+
+    static void mergeResearch() {
+        int[] tmpRandomArray = randomArray.clone();
+        int[] tmpSortedArray = sortedArray.clone();
+        int[] tmpInvertArray = invertArray.clone();
+
+        System.out.println("Сортировка слиянием");
+        System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
+        Sorts.mergeSort(tmpRandomArray);
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpRandomArray)));
         System.out.println();
-        insertionSortResearch();
+
+        System.out.println("Отсортированный массив: " + printArray(tmpSortedArray));
+        Sorts.mergeSort(tmpSortedArray);
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpSortedArray)));
         System.out.println();
-        binaryInsertionSortResearch();
+
+        System.out.println("Инвертированный массив: " + printArray(tmpInvertArray));
+        Sorts.mergeSort(tmpInvertArray);
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpInvertArray)));
         System.out.println();
-        bubbleSortResearch();
+    }
+    static void quickResearch() {
+        int[] tmpRandomArray = randomArray.clone();
+        int[] tmpSortedArray = sortedArray.clone();
+        int[] tmpInvertArray = invertArray.clone();
+
+        System.out.println("Быстрая сортировка");
+        System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
+        Sorts.quickSort(tmpRandomArray, 0, tmpRandomArray.length-1);
+        System.out.println(Arrays.toString(tmpRandomArray));
         System.out.println();
-        shellSortResearch();
+
+        System.out.println("Отсортированный массив: " + printArray(tmpSortedArray));
+        Sorts.quickSort(tmpSortedArray, 0, tmpRandomArray.length-1);
+        System.out.println(Arrays.toString(tmpSortedArray));
+        System.out.println();
+
+        System.out.println("Инвертированный массив: " + printArray(tmpInvertArray));
+        Sorts.quickSort(tmpInvertArray,0, tmpRandomArray.length-1);
+        System.out.println(Arrays.toString(tmpInvertArray));
+        System.out.println();
     }
 
     static void binarySearchResearch(int element) {
@@ -40,7 +76,7 @@ public class Main {
         System.out.println(printArray(array));
         Searches.binarySearch(array, element);
         System.out.println("Поиск не существующего элемента");
-        Searches.linearSearch(array, 100);
+        Searches.binarySearch(array, 100);
     }
     static void linearSearchResearch(int element) {
         int[] array = {1,3,2,4,6,5,7,8,9,11,10,13,12,14,15};
