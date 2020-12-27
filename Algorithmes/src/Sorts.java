@@ -121,14 +121,7 @@ public class Sorts {
         return result;
     }
 
-    /**
-     *
-     * @param buffer1 Массив для сортировки.
-     * @param buffer2 Буфер. Размер должен быть равен размеру buffer1.
-     * @param startIndex Начальный индекс в buffer1 для сортировки.
-     * @param endIndex Конечный индекс в buffer1 для сортировки.
-     * @return
-     */
+
     public static int[] mergesortInner(int[] buffer1, int[] buffer2,
                                        int startIndex, int endIndex) {
 
@@ -160,6 +153,8 @@ public class Sorts {
     }
 
     public static void quickSort(int[] array, int low, int high) {
+        int count = 0;
+        int swaps = 0;
         if (array.length == 0)
             return;//завершить выполнение если длина массива равна 0
 
