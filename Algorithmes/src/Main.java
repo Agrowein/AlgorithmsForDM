@@ -1,11 +1,11 @@
+import graph.Graph;
+
 import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Main {
-    static final int[] sortedArray = new int[15];
-    static final int[] randomArray = new int[15];
-    static final int[] invertArray = new int[15];
+    static final int[] sortedArray = new int[16];
+    static final int[] randomArray = new int[16];
+    static final int[] invertArray = new int[16];
 
     public static void main(String[] args) {
 
@@ -21,52 +21,97 @@ public class Main {
         for (int i = 0; i < randomArray.length; i++) {
             randomArray[i] = (int) (Math.random() * 100);
         }
-        mergeResearch();
+//        mergeResearch();
+//        System.out.println();
+//        quickResearch();
+
+        graphResearch();
+
+    }
+
+    static void graphResearch() {
+        Graph graph = new Graph();
+
+        graph.addVertex('A');
+        graph.addVertex('B');
+        graph.addVertex('C');
+        graph.addVertex('D');
+        graph.addVertex('E');
+        graph.addVertex('F');
+        graph.addVertex('G');
+        graph.addVertex('H');
+        graph.addVertex('I');
+
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        graph.addEdge(2, 5);
+        graph.addEdge(2, 6);
+        graph.addEdge(3, 7);
+        graph.addEdge(7, 8);
+
+
+        System.out.println("Обход в глубину:");
+        graph.passInDeep(0);
+        System.out.println("Операций: " + graph.getCount());
+
         System.out.println();
-        quickResearch();
+
+        System.out.println("Обход в ширину:");
+        graph.passInWidth(0);
+        System.out.println("Операций: " + graph.getCount());
 
     }
 
     static void mergeResearch() {
+        Counter counter = new Counter(0,0);
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
 
         System.out.println("Сортировка слиянием");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
-        Sorts.mergeSort(tmpRandomArray);
-        System.out.println(Arrays.toString(Sorts.mergeSort(tmpRandomArray)));
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpRandomArray, counter)));
+        System.out.println("Проходов:" + counter.count + " Слияний: " + counter.swaps);
         System.out.println();
+        counter.setCounterNull();
 
         System.out.println("Отсортированный массив: " + printArray(tmpSortedArray));
-        Sorts.mergeSort(tmpSortedArray);
-        System.out.println(Arrays.toString(Sorts.mergeSort(tmpSortedArray)));
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpSortedArray,counter)));
+        System.out.println("Проходов:" + counter.count + " Слияний: " + counter.swaps);
         System.out.println();
+        counter.setCounterNull();
 
         System.out.println("Инвертированный массив: " + printArray(tmpInvertArray));
-        Sorts.mergeSort(tmpInvertArray);
-        System.out.println(Arrays.toString(Sorts.mergeSort(tmpInvertArray)));
+        System.out.println(Arrays.toString(Sorts.mergeSort(tmpInvertArray, counter)));
+        System.out.println("Проходов:" + counter.count + " Слияний: " + counter.swaps);
         System.out.println();
+        counter.setCounterNull();
     }
     static void quickResearch() {
+        Counter counter = new Counter(0,0);
         int[] tmpRandomArray = randomArray.clone();
         int[] tmpSortedArray = sortedArray.clone();
         int[] tmpInvertArray = invertArray.clone();
 
         System.out.println("Быстрая сортировка");
         System.out.println("Массив случайных чисел: " + printArray(tmpRandomArray));
-        Sorts.quickSort(tmpRandomArray, 0, tmpRandomArray.length-1);
+        Sorts.quickSort(tmpRandomArray, 0, tmpRandomArray.length-1, counter);
         System.out.println(Arrays.toString(tmpRandomArray));
+        System.out.println("Проходов:" + counter.count + " Замен: " + counter.swaps);
         System.out.println();
 
         System.out.println("Отсортированный массив: " + printArray(tmpSortedArray));
-        Sorts.quickSort(tmpSortedArray, 0, tmpRandomArray.length-1);
+        Sorts.quickSort(tmpSortedArray, 0, tmpRandomArray.length-1, counter);
         System.out.println(Arrays.toString(tmpSortedArray));
+        System.out.println("Проходов:" + counter.count + " Замен: " + counter.swaps);
         System.out.println();
 
         System.out.println("Инвертированный массив: " + printArray(tmpInvertArray));
-        Sorts.quickSort(tmpInvertArray,0, tmpRandomArray.length-1);
+        Sorts.quickSort(tmpInvertArray,0, tmpRandomArray.length-1, counter);
         System.out.println(Arrays.toString(tmpInvertArray));
+        System.out.println("Проходов:" + counter.count + " Замен: " + counter.swaps);
         System.out.println();
     }
 
@@ -175,16 +220,35 @@ public class Main {
         System.out.println();
     }
 
+
+
+    //Utils
+
+
+    public static class Counter {
+        public int swaps;
+        public int count;
+
+        public Counter(int swaps, int count) {
+            this.swaps = swaps;
+            this.count = count;
+        }
+        void setCounterNull() {
+            this.swaps = 0;
+            this.count = 0;
+        }
+    }
+
     public static String printArray(int[] array) {
-        String line = "Размер массива: " + array.length + ": [";
+        StringBuilder line = new StringBuilder("Размер массива: " + array.length + ": [");
         for (int i = 0; i < array.length; i++) {
             if (i == array.length - 1) {
-                line += array[i];
+                line.append(array[i]);
                 break;
             }
-            line += array[i] + ", ";
+            line.append(array[i]).append(", ");
         }
-        line += "]";
-        return line;
+        line.append("]");
+        return line.toString();
     }
 }

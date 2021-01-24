@@ -114,82 +114,108 @@ public class Sorts {
         System.out.println("Сравнений: " + count + " Перестановок: " + swaps + " ");
     }
 
-    public static int[] mergeSort(int[] array1) {
-        int[] buffer1 = Arrays.copyOf(array1, array1.length);
-        int[] buffer2 = new int[array1.length];
-        int[] result = mergesortInner(buffer1, buffer2, 0, array1.length);
-        return result;
+    public static int[] mergeSort(int[] array, Main.Counter counter) {
+        int[] tmp;
+        int[] currentSrc = array;
+        int[] currentDest = new int[array.length];
+
+        int size = 1;
+        while (size < array.length) {
+            for (int i = 0; i < array.length; i += 2 * size) {
+                merge(currentSrc, i, currentSrc, i + size, currentDest, i, size, counter);
+                counter.swaps++;
+            }
+
+            tmp = currentSrc;
+            currentSrc = currentDest;
+            currentDest = tmp;
+
+            size = size * 2;
+
+            System.out.println(Arrays.toString(currentSrc));
+        }
+        return currentSrc;
     }
 
 
-    public static int[] mergesortInner(int[] buffer1, int[] buffer2,
-                                       int startIndex, int endIndex) {
 
-        if (startIndex >= endIndex - 1) {
-            return buffer1;
-        }
+    public static void quickSort(int[] arr, int from, int to, Main.Counter counter) {
+        counter.count++;
+        if (from < to) {
 
-        // уже отсортирован.
-        int middle = startIndex + (endIndex - startIndex) / 2;
-        int[] sorted1 = mergesortInner(buffer1, buffer2, startIndex, middle);
-        int[] sorted2 = mergesortInner(buffer1, buffer2, middle, endIndex);
+            int divideIndex = partition(arr, from, to, counter);
 
-        // Слияние
-        int index1 = startIndex;
-        int index2 = middle;
-        int destIndex = startIndex;
-        int[] result = sorted1 == buffer1 ? buffer2 : buffer1;
-        while (index1 < middle && index2 < endIndex) {
-            result[destIndex++] = sorted1[index1] < sorted2[index2]
-                    ? sorted1[index1++] : sorted2[index2++];
+            printSortStep(arr, from, to, divideIndex);
+
+            quickSort(arr, from, divideIndex - 1, counter);
+
+            quickSort(arr, divideIndex, to, counter);
         }
-        while (index1 < middle) {
-            result[destIndex++] = sorted1[index1++];
-        }
-        while (index2 < endIndex) {
-            result[destIndex++] = sorted2[index2++];
-        }
-        return result;
     }
 
-    public static void quickSort(int[] array, int low, int high) {
-        int count = 0;
-        int swaps = 0;
-        if (array.length == 0)
-            return;//завершить выполнение если длина массива равна 0
 
-        if (low >= high)
-            return;//завершить выполнение если уже нечего делить
 
-        // выбрать опорный элемент
-        int middle = low + (high - low) / 2;
-        int opora = array[middle];
+    //Utils
 
-        // разделить на подмассивы, который больше и меньше опорного элемента
-        int i = low, j = high;
-        while (i <= j) {
-            while (array[i] < opora) {
-                i++;
-            }
+    private static void merge(int[] src1, int src1Start, int[] src2, int src2Start, int[] dest,
+                              int destStart, int size, Main.Counter counter) {
+        int index1 = src1Start;
+        int index2 = src2Start;
 
-            while (array[j] > opora) {
-                j--;
-            }
+        int src1End = Math.min(src1Start + size, src1.length);
+        int src2End = Math.min(src2Start + size, src2.length);
 
-            if (i <= j) {//меняем местами
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-                i++;
-                j--;
+        int iterationCount = src1End - src1Start + src2End - src2Start;
+
+        for (int i = destStart; i < destStart + iterationCount; i++) {
+            counter.count++;
+            if (index1 < src1End && (index2 >= src2End || src1[index1] < src2[index2])) {
+                dest[i] = src1[index1];
+                index1++;
+            } else {
+                dest[i] = src2[index2];
+                index2++;
             }
         }
-
-        // вызов рекурсии для сортировки левой и правой части
-        if (low < j)
-            quickSort(array, low, j);
-
-        if (high > i)
-            quickSort(array, i, high);
     }
+
+    private static int partition(int[] arr, int from, int to, Main.Counter counter) {
+        int rightIndex = to;
+        int leftIndex = from;
+
+        int pivot = arr[from + (to - from) / 2];
+        while (leftIndex <= rightIndex) {
+
+            while (arr[leftIndex] < pivot) {
+                leftIndex++;
+            }
+
+            while (arr[rightIndex] > pivot) {
+                rightIndex--;
+            }
+
+            if (leftIndex <= rightIndex) {
+                counter.swaps++;
+                swap(arr, rightIndex, leftIndex);
+                leftIndex++;
+                rightIndex--;
+            }
+        }
+        return leftIndex;
+    }
+
+    private static void printSortStep(int[] arr, int from, int to, int partitionIndex) {
+        System.out.print(Arrays.toString(arr));
+        System.out.print("\npartition at index: " + partitionIndex);
+        System.out.print(", left: " + Arrays.toString(Arrays.copyOfRange(arr, from, partitionIndex)));
+        System.out.println(", right: " + Arrays.toString(Arrays.copyOfRange(arr, partitionIndex, to + 1)) + "\n");
+    }
+
+
+    private static void swap(int[] array, int index1, int index2) {
+        int tmp  = array[index1];
+        array[index1] = array[index2];
+        array[index2] = tmp;
+    }
+
 }
